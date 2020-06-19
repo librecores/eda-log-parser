@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 import json
 
 class LogEntry:
-  def __init__(self, severity, msg, file, line, col):
+  def __init__(self, *, severity=None, msg=None, file=None, line=None, col=None):
     self.severity = severity
     self.msg = msg
     self.file = file

@@ -20,8 +20,8 @@ class VerilatorLogParser(LogParser):
         line = int(m.group(2))
         col = int(m.group(3))
         msg = m.group(4)
-        entries.append(LogEntry(severity, msg, file, line, col))
+        entries.append(LogEntry(severity=severity, msg=msg, file=file, line=line, col=col))
       else:
-        entries.append(LogEntry(severity, msg, None, None, None))
+        entries.append(LogEntry(severity=severity, msg=msg))
     return entries
 

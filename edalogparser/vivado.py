@@ -20,6 +20,6 @@ class VivadoLogParser(LogParser):
           colon = m.group(6).rfind(":")
           file = m.group(6)[0:colon]
           line = m.group(6)[colon+1:]
-        entries.append(LogEntry(severity, msg, file, line, None))
+        entries.append(LogEntry(severity=severity, msg=msg, file=file, line=line))
     return entries
 
