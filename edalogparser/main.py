@@ -1,10 +1,13 @@
 import sys
 import argparse
 
+from .verible import VeribleLintLogParser
 from .verilator import VerilatorLogParser
 from .vivado import VivadoLogParser
 
-tools = { "verilator": VerilatorLogParser, "vivado": VivadoLogParser }
+tools = { "veriblelint": VeribleLintLogParser,
+          "verilator": VerilatorLogParser,
+          "vivado": VivadoLogParser }
 
 def main():
   parser = argparse.ArgumentParser()

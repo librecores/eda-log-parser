@@ -17,6 +17,7 @@ verilator ... 2>&1 | eda-log-parser -t verilator -f json
 
 Supported tools:
 
+- `veriblelint`: VeribleLintLogParser
 - `verilator`: Verilator
 - `vivado`: Xilinx Vivado
 
