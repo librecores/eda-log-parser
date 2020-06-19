@@ -4,8 +4,8 @@ import re
 class VivadoLogParser(LogParser):
   regex = re.compile(r"^((INFO|WARNING|ERROR): \[(.*?)\] (.*?)( \[(.*?)\])?)\n$")
 
-  def __init__(self):
-    super().__init__()
+  def __init__(self, config):
+    super().__init__(config)
 
   def parse(self, log):
     entries = Log()
@@ -18,7 +18,7 @@ class VivadoLogParser(LogParser):
         line = None
         if m.group(6):
           colon = m.group(6).rfind(":")
-          file = m.group(6)[0:colon]
+          file = self.filter_filename(m.group(6)[0:colon])
           line = m.group(6)[colon+1:]
         code = m.group(3)
         entries.append(LogEntry(severity=severity, msg=msg, file=file, line=line, code=code))

@@ -9,6 +9,7 @@ class LogEntry:
     self.line = line
     self.col = col
     self.code = code
+
   def as_dict(self, full=False):
     d = { "severity": self.severity, "msg": self.msg }
     if self.file is not None or full:
@@ -67,10 +68,15 @@ class Log(list):
     return "\n".join([l.as_ghaction() for l in self])
 
 class LogParser(ABC):
-  def __init__(self):
-    pass
+  def __init__(self, config):
+    self.config = config if config else {}
 
   @abstractmethod
   def parse(self, log):
     pass
 
+  def filter_filename(self, name):
+    if "file-filter" in self.config:
+      if name.startswith(self.config["file-filter"]):
+        return name[len(self.config["file-filter"]):]
+    return name

@@ -4,8 +4,8 @@ import re
 class VeribleLintLogParser(LogParser):
   regex = re.compile(r"^(.*?):(\d+):(\d+): (.*) \[Style: (.*?)\]")
 
-  def __init__(self):
-    super().__init__()
+  def __init__(self, config):
+    super().__init__(config)
 
   def parse(self, log):
     entries = Log()
@@ -14,7 +14,7 @@ class VeribleLintLogParser(LogParser):
       if m:
         severity = "warning"
         msg = m.group(4)
-        file = m.group(1)
+        file = self.filter_filename(m.group(1))
         line = m.group(2)
         col = m.group(3)
         code = m.group(5)
