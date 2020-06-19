@@ -16,17 +16,24 @@ class LogEntry:
         d["line"] = self.line
       if self.col is not None or full:
         d["col"] = self.col
+    if self.code is not None or full:
+      d["code"] = self.code
     return d
   def as_azure(self):
-    m  = "##vso[task.logissue type={}".format(self.severity)
-    if self.file is not None:
-      m += ";sourcepath="+self.file
-      if self.line is not None:
-        m += ";linenumber={}".format(self.line)
-      if self.col is not None:
-        m += ";columnnumber=".format(self.col)
-    m += "]" + self.msg
-    return m
+    if self.severity in ["warning", "error"]:
+      m  = "##vso[task.logissue type={}".format(self.severity)
+      if self.file is not None:
+        m += ";sourcepath="+self.file
+        if self.line is not None:
+          m += ";linenumber={}".format(self.line)
+        if self.col is not None:
+          m += ";columnnumber=".format(self.col)
+        if self.code is not None:
+          m += ";code=" + self.code
+      m += "]" + self.msg
+      return m
+    else:
+      return "##[debug][" + self.severity + "] " + self.msg
   def as_ghaction(self):
     m = "::{} ".format(self.severity)
     if self.file is not None:
