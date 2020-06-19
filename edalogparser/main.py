@@ -2,12 +2,13 @@ import sys
 import argparse
 
 from .verilator import VerilatorLogParser
+from .vivado import VivadoLogParser
 
-tools = { "verilator": VerilatorLogParser }
+tools = { "verilator": VerilatorLogParser, "vivado": VivadoLogParser }
 
 def main():
   parser = argparse.ArgumentParser()
-  parser.add_argument("-t", "--tool", required=True, choices=["verilator"])
+  parser.add_argument("-t", "--tool", required=True, choices=tools.keys())
   parser.add_argument("-f", "--format", choices=["json", "azure", "ghaction"], default="json")
   parser.add_argument("input", nargs='?', help="", type=argparse.FileType('r'),
                     default=sys.stdin)
