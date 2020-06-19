@@ -2,12 +2,13 @@ from abc import ABC, abstractmethod
 import json
 
 class LogEntry:
-  def __init__(self, *, severity=None, msg=None, file=None, line=None, col=None):
+  def __init__(self, *, severity=None, msg=None, file=None, line=None, col=None, code=None):
     self.severity = severity
     self.msg = msg
     self.file = file
     self.line = line
     self.col = col
+    self.code = code
   def as_dict(self, full=False):
     d = { "severity": self.severity, "msg": self.msg }
     if self.file is not None or full:
@@ -43,6 +44,8 @@ class LogEntry:
       if self.col is not None:
         m += ",col={}".format(self.col)
     m += "::" + self.msg.replace('%', '%25').replace('\\n', '%0A').replace('\\r', '%0D').replace("\\'", "\'")
+    if self.code is not None:
+      m += " ({})".format(self.code)
     return m
 
 class Log(list):
